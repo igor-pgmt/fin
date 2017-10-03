@@ -72,7 +72,7 @@ class CategoriesController extends LoginController
 		$model = new Categories();
 
 		//Список групп трат
-		$categroups=ArrayHelper::map(Categroups::find()->all(),'id','cgroupname');
+		$categroups = Categroups::findCategroups();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 		   // return $this->redirect(['view', 'id' => $model->id]); //отрисовка просмотра категории
@@ -96,7 +96,7 @@ class CategoriesController extends LoginController
 		$model = $this->findModel($id);
 
 		//Список групп трат
-		$categroups=ArrayHelper::map(Categroups::find()->all(),'id','cgroupname');
+		$categroups = Categroups::findCategroups();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			//return $this->redirect(['view', 'id' => $model->id]);

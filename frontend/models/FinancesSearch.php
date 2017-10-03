@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use frontend\models\Finances;
 
@@ -16,10 +17,11 @@ class FinancesSearch extends Finances
 	public $currency_name;
 	public $realName;
 	public $motionType;
-	public $categoryName;
-	public $walletName;
 	public $walletgroup_id;
+	public $walletName;
 	public $cgroup_id;
+	public $categoryName;
+
 	public $tag;
 
 	/**
@@ -80,14 +82,21 @@ class FinancesSearch extends Finances
 	 */
 	public function search($params)
 	{
+
+		if (Yii::$app->controller->action->id == 'myfinances') {
+			$user_ids = Yii::$app->user->identity->id;
+		} else {
+			$user_ids = User::getAllUserids();
+		}
+
 		$query = Finances::find()
 		->where(['finances.deleted' => false])
-		->andWhere(['finances.user_id' => Yii::$app->user->identity->id]) ;
+		->andWhere(['finances.user_id' => $user_ids]);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'pagination' => [
-				'pagesize' => 15,
+				'pagesize' => 25,
 			],
 		]);
 
@@ -108,16 +117,16 @@ class FinancesSearch extends Finances
 			'wallet_id',
 			'currency_id',
 			'currency_name' => [
-				'asc' => ['currencies.currency' => SORT_ASC],
-				'desc' => ['currencies.currency' => SORT_DESC],
+				'asc' => ['currencies.name' => SORT_ASC],
+				'desc' => ['currencies.name' => SORT_DESC],
 			],
 			'motionType' => [
 				'asc' => ['motions.name' => SORT_ASC],
 				'desc' => ['motions.name' => SORT_DESC],
 			],
 			'categoryName' => [
-				'asc' => ['categories.category' => SORT_ASC],
-				'desc' => ['categories.category' => SORT_DESC],
+				'asc' => ['categories.name' => SORT_ASC],
+				'desc' => ['categories.name' => SORT_DESC],
 			],
 			'walletName' => [
 				'asc' => ['wallets.name' => SORT_ASC],
@@ -147,27 +156,13 @@ class FinancesSearch extends Finances
 		]
 	]);
 
-		/*
-		$this->load($params);
 
-		if (!$this->validate()) {
-			// uncomment the following line if you do not want to return any records when validation fails
-			// $query->where('0=1');
-			return $dataProvider;
-		}*/
+	 if (!($this->load($params) && $this->validate())) {
 
-	if (!($this->load($params) && $this->validate())) {
-		/**
-		 * Жадная загрузка данных моделей
-		 * для работы сортировки.
-		 */
-
-		$query->joinWith(['wallets']);
-//		$query->joinWith(['categories']);
-		$query->joinWith(['currencies']);
-		$query->joinWith(['motions']);
+			 // uncomment the following line if you do not want to return any records when validation fails
+			 // $query->where('0=1');
 		return $dataProvider;
-	}
+	 }
 
 		$query->andFilterWhere([
 
@@ -175,7 +170,7 @@ class FinancesSearch extends Finances
 			//'money' => $this->money,
 			'motion_id' => $this->motion_id,
 			'category_id' => $this->category_id,
-			'wallet_id' => $this->wallet_id,
+			//'wallet_id' => $this->wallet_id,
 			'walletgroup_id' => $this->walletgroup_id,
 			'cgroup_id' => $this->cgroup_id,
 			'currency_id' => $this->currency_id,
@@ -204,7 +199,7 @@ class FinancesSearch extends Finances
 		$query->andFilterWhere(['like', 'date', $this->date]);
 
 		$query->joinWith(['currencies' => function ($q) {
-			$q->where('currencies.currency LIKE "%' . $this->currency_name . '%"');
+			$q->where('currencies.name LIKE "%' . $this->currency_name . '%"');
 		}]);
 
 		$query->joinWith(['motions' => function ($q) {
@@ -215,13 +210,11 @@ class FinancesSearch extends Finances
 			$q->where('walletgroups.name LIKE "%' . $this->walletgroupName . '%"');
 		}]);
 
-		$query->andwhere('wallets.name LIKE "%' . $this->walletName . '%"');
-
 		$query->joinWith(['categroups' => function ($q) {
 			$q->where('categroups.cgroupname LIKE "%' . $this->categroupName . '%"');
 		 }]);
 
-		$query->andwhere('categories.category LIKE "%' . $this->categoryName . '%"');
+		//we do not need here wallets and categories JOINs because we are using JOINing with viaTable (see Finances model)
 
 		if ($this->tag != false ) {
 

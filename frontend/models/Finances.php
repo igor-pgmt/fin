@@ -43,7 +43,7 @@ use yii\helpers\ArrayHelper;
  * @property Motions $motionType
  * @property Wallet $wallet
  * @property User $user
- * @property Categories $category
+ * @property Categories $name
  */
 class Finances extends \yii\db\ActiveRecord
 {
@@ -163,11 +163,9 @@ public $finTags=[];
 			'my_new_wallet_balance' => 'Стало в моём кошельке',
 			'my_new_wgsumma_balance' => 'Стало в моих кошельках такого типа',
 			'my_new_summa_balance' => 'Стало у меня такой валюты вообще',
-		//'our_old_wallet_balance' => 'Было у нас в кошельках такого типа',
-				'our_old_wgsumma_balance' => 'Было у нас в кошельках такого типа',
+			'our_old_wgsumma_balance' => 'Было у нас в кошельках такого типа',
 			'our_old_summa_balance' => 'Было такой валюты у нас вообще',
-		//'our_new_wallet_balance' => 'Стало у нас в кошельках такого типа',
-				'our_new_wgsumma_balance' => 'Стало у нас в кошельках такого типа',
+			'our_new_wgsumma_balance' => 'Стало у нас в кошельках такого типа',
 			'our_new_summa_balance' => 'Стало такой валюты у нас вообще',
 
 			'related_record' => 'Связанная запись',
@@ -255,7 +253,6 @@ public $finTags=[];
 	public function getWalletgroups()
 	{
 		return $this->hasOne(Walletgroups::className(), ['id' => 'walletgroup_id'])
-		//->where('wallets.id' .' = '. 'id');
 			->viaTable('{{%wallets}}', ['id' => 'wallet_id']);
 	}
 
@@ -318,7 +315,7 @@ public $finTags=[];
 	public function getCategoryName() // получаем категории по их id
 	{
 		$category = $this->categories;
-		return $category ? $category->category : '';
+		return $category ? $category->name : '';
 	}
 
 	/**
@@ -333,7 +330,7 @@ public $finTags=[];
 	public function getCurrency_name()
 	{
 		$currency = $this->currencies;
-		return $currency ? $currency->currency : '';
+		return $currency ? $currency->name : '';
 	}
 
 		public static function getMyBalance()

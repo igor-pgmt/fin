@@ -62,11 +62,11 @@ $resultc = $command->queryAll();
 				$dd=$formatter->asTimestamp($datejs);
 /*				echo '<br /><br />';
 				echo $datejs.' = '.$value['date'].' = '.$dd; */
-				$sPlanresult[]=['name'=>$cvalue['currency_r'], 'date'=>$dd, 'amount'=>$value['our_new_summa_balance']];
+				$sPlanresult[]=['name'=>$cvalue['name_g'], 'date'=>$dd, 'amount'=>$value['our_new_summa_balance']];
 				$maxmin[] = $value['our_new_summa_balance'];
 			}
 
-		$staticPlans[$i]['planname']='Общий объём '.$cvalue['currency_r']; //Название графика
+		$staticPlans[$i]['planname']='Общий объём '.$cvalue['name_g']; //Название графика
 		$staticPlans[$i]['sPlanresult']=$sPlanresult;
 		$staticPlans[$i]['max'] = (count($maxmin)>1) ? max($maxmin)+100 : 100;
 		$staticPlans[$i]['min'] = (count($maxmin)>1) ? min($maxmin)-100 : -100;

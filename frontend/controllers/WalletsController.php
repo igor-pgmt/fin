@@ -66,7 +66,7 @@ class WalletsController extends LoginController
 	{
 
 		$currencies = Currencies::find()
-			->select(['id', 'currency_r'])
+			->select(['id', 'name_g'])
 			->asArray()
 			->all();
 
@@ -79,7 +79,7 @@ class WalletsController extends LoginController
 
 		foreach ($myWallets as $valueWallet) {
 			foreach ($currencies as $valueCurr) {
-				$myData[$valueWallet['name']][$valueCurr['currency_r']] = Wallets::getWamount($valueCurr['id'], $valueWallet['id']);
+				$myData[$valueWallet['name']][$valueCurr['name_g']] = Wallets::getWamount($valueCurr['id'], $valueWallet['id']);
 			}
 		}
 

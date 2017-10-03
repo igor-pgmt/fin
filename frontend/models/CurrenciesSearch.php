@@ -19,7 +19,7 @@ class CurrenciesSearch extends Currencies
     {
         return [
             [['id'], 'integer'],
-            [['currency', 'currency_r'], 'safe'],
+            [['name', 'name_g'], 'safe'],
             [['deleted'], 'boolean'],
         ];
     }
@@ -59,7 +59,7 @@ class CurrenciesSearch extends Currencies
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'currency' => $this->currency,
+            'name' => $this->name,
         ]);
 
         return $dataProvider;

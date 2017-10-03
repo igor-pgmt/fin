@@ -12,9 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'currency')->textInput() ?>
+    <?= $form->field($model, 'name_')->textInput() ?>
 
-    <?= $form->field($model, 'currency_r')->textInput() ?>
+    <?= $form->field($model, 'name_g')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

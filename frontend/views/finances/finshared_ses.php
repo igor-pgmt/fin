@@ -12,19 +12,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $string_my='Мой баланс:<br>';
 foreach ($my_balance as $key => $value) {
-$string_my.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our='Общий баланс:<br>';
 foreach ($our_balance as $key => $value) {
-$string_our.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_my2='Мой вычисляемый баланс:<br>';
 foreach ($my_balance2 as $key => $value) {
-$string_my2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our2='Общий вычисляемый баланс:<br>';
 foreach ($our_balance2 as $key => $value) {
-$string_our2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 //Видимость столбцов- TODO! сделать настройки с сохзранением в базе
 if (Yii::$app->user->identity->id == '2') {$visiblity=true;}
@@ -135,14 +135,14 @@ for ($i=0; $i < 2; $i++) {
 				'visible' => Yii::$app->session->get('settingsAdmin')['wallet_id'],
 			],*/
 			[
-				'attribute'=>'currency_name',
-				'label'=> Yii::$app->session->get('settingsAdmin')['name_currency_id'],
-				'visible' => Yii::$app->session->get('settingsAdmin')['currency_id'],
+				'attribute'=>'name_g_name',
+				'label'=> Yii::$app->session->get('settingsAdmin')['name_name_g_id'],
+				'visible' => Yii::$app->session->get('settingsAdmin')['name_g_id'],
 			],
 /*          [
-				'attribute'=>'currency_id',
-				'label'=> Yii::$app->session->get('settingsAdmin')['name_currency_id'],
-				'visible' => Yii::$app->session->get('settingsAdmin')['currency_id'],
+				'attribute'=>'name_g_id',
+				'label'=> Yii::$app->session->get('settingsAdmin')['name_name_g_id'],
+				'visible' => Yii::$app->session->get('settingsAdmin')['name_g_id'],
 			],*/
 			[
 				'attribute'=>'date',

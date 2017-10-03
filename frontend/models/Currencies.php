@@ -8,7 +8,8 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "currencies".
  *
  * @property integer $id
- * @property integer $currency
+ * @property integer $name
+ * @property integer $name_g
  */
 class Currencies extends \yii\db\ActiveRecord
 {
@@ -26,9 +27,9 @@ class Currencies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['currency', 'currency_r'], 'required'],
+            [['name', 'name_g'], 'required'],
             [['deleted'], 'boolean'],
-            [['currency'], 'string', 'max' => 30]
+            [['name'], 'string', 'max' => 30]
         ];
     }
 
@@ -39,8 +40,8 @@ class Currencies extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'currency' => 'Валюта в именительном падеже',
-            'currency_r' => 'Валюта в родительном падеже',
+            'name' => 'Валюта в именительном падеже',
+            'name_g' => 'Валюта в родительном падеже',
             'deleted' => 'Удалена',
         ];
     }
@@ -53,7 +54,7 @@ class Currencies extends \yii\db\ActiveRecord
         ->all();
 
         //use yii\helpers\ArrayHelper;
-        $currencies=ArrayHelper::map($query_currencies, 'id', 'currency');
+        $currencies=ArrayHelper::map($query_currencies, 'id', 'name');
         return $currencies;
     }
 

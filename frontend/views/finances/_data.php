@@ -18,23 +18,23 @@ echo number_format($our_balance2[$i]['my_sum'],10).'<br/>';
 $string_my='Мой баланс:<br>';
 foreach ($my_balance as $key => $value) {
 $value['my_sum']=floatval($value['my_sum']);
-$string_my.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our='Общий баланс:<br>';
 foreach ($our_balance as $key => $value) {
 $value['my_sum']=floatval($value['my_sum']);
-$string_our.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 
 $string_my2='Мой вычисляемый баланс:<br>';
 foreach ($my_balance2 as $key => $value) {
 $value['my_sum']=floatval($value['my_sum']);
-$string_my2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our2='Общий вычисляемый баланс:<br>';
 foreach ($our_balance2 as $key => $value) {
 $value['my_sum']=floatval($value['my_sum']);
-$string_our2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 
 ?>

@@ -108,8 +108,8 @@ class FinsharedSearch extends Finances
 			'wallet_id',
 			'currency_id',
 			'currency_name' => [
-				'asc' => ['currencies.currency' => SORT_ASC],
-				'desc' => ['currencies.currency' => SORT_DESC],
+				'asc' => ['currencies.name' => SORT_ASC],
+				'desc' => ['currencies.name' => SORT_DESC],
 			],
 			'realName' => [
 				'asc' => ['user.realname' => SORT_ASC],
@@ -120,8 +120,8 @@ class FinsharedSearch extends Finances
 				'desc' => ['motions.name' => SORT_DESC],
 			],
 			'categoryName' => [
-				'asc' => ['categories.category' => SORT_ASC],
-				'desc' => ['categories.category' => SORT_DESC],
+				'asc' => ['categories.name' => SORT_ASC],
+				'desc' => ['categories.name' => SORT_DESC],
 			],
 			'walletName' => [
 				'asc' => ['wallets.name' => SORT_ASC],
@@ -208,7 +208,7 @@ class FinsharedSearch extends Finances
 		$query->andFilterWhere(['like', 'date', $this->date]);
 
 		$query->joinWith(['currencies' => function ($q) {
-			$q->where('currencies.currency LIKE "%' . $this->currency_name . '%"');
+			$q->where('currencies.name LIKE "%' . $this->currency_name . '%"');
 		}]);
 		$query->joinWith(['user' => function ($q) {
 			$q->where('user.realname LIKE "%' . $this->realName . '%"');
@@ -226,10 +226,10 @@ class FinsharedSearch extends Finances
 			$q->where('categroups.cgroupname LIKE "%' . $this->categroupName . '%"');
 		 }]);
 
-		$query->andwhere('categories.category LIKE "%' . $this->categoryName . '%"');
+		$query->andwhere('categories.name LIKE "%' . $this->categoryName . '%"');
 
 		// $query->joinWith(['categories' => function ($q) {
-		// 	$q->where('categories.category LIKE "%' . $this->categoryName . '%"');
+		// 	$q->where('categories.name LIKE "%' . $this->categoryName . '%"');
 		// }]);
 
 		if ($this->tag != false ) {

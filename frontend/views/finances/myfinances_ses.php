@@ -14,20 +14,20 @@ $this->params['breadcrumbs'][] = $this->title;
 $string_my='Мой баланс:<br>';
 foreach ($my_balance as $key => $value) {
 
-$string_my.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our='Общий баланс:<br>';
 foreach ($our_balance as $key => $value) {
-$string_our.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 
 $string_my2='Мой вычисляемый баланс:<br>';
 foreach ($my_balance2 as $key => $value) {
-$string_my2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_my2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 $string_our2='Общий вычисляемый баланс:<br>';
 foreach ($our_balance2 as $key => $value) {
-$string_our2.=$value['my_sum'].' '.$value['currency_r'].'<br>';
+$string_our2.=$value['my_sum'].' '.$value['name_g'].'<br>';
 }
 
 //костыль

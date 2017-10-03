@@ -435,11 +435,11 @@ class FinancesController extends LoginController
 			return $this->render('myfinances', [
 			'motionTypes' => ArrayHelper::map(Motions::find()->orderBy('id')->asArray()->all(), 'type', 'name'),
 			'categroups' => ArrayHelper::map(Categroups::find()->where(['deleted' => false])->orderBy('cgroupname')->asArray()->all(), 'id', 'cgroupname'),
-			'categories' => ArrayHelper::map(Categories::find()->where(['!=', 'cgroup_id', -1])->andwhere(['deleted' => false])->orderBy('category')->asArray()->all(), 'id', 'category'),
+			'categories' => Categories::findCategories(),
 			'users' => ArrayHelper::map(User::find()->orderBy('realname')->asArray()->all(), 'id', 'realname'),
 			'wallets' => ArrayHelper::map(Wallets::find()->where(['user_id'=>Yii::$app->user->identity->id])->andwhere(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
 			'walletGroups' => ArrayHelper::map(Walletgroups::find()->where(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
-			'currencies' => ArrayHelper::map(Currencies::find()->where(['deleted' => false])->orderBy('currency')->asArray()->all(), 'id', 'currency'),
+			'currencies' => Currencies::findCurrencies(),
 
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
@@ -455,11 +455,11 @@ class FinancesController extends LoginController
 		return $this->render('myfinances_ses', [
 			'motionTypes' => ArrayHelper::map(Motions::find()->orderBy('id')->asArray()->all(), 'type', 'name'),
 			'categroups' => ArrayHelper::map(Categroups::find()->where(['deleted' => false])->orderBy('cgroupname')->asArray()->all(), 'id', 'cgroupname'),
-			'categories' => ArrayHelper::map(Categories::find()->where(['!=', 'cgroup_id', -1])->andwhere(['deleted' => false])->orderBy('category')->asArray()->all(), 'id', 'category'),
+			'categories' => Categories::findCategories(),
 			'users' => ArrayHelper::map(User::find()->orderBy('realname')->asArray()->all(), 'id', 'realname'),
 			'walletGroups' => ArrayHelper::map(Walletgroups::find()->where(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
 			'wallets' => ArrayHelper::map(Wallets::find()->where(['user_id'=>Yii::$app->user->identity->id])->andwhere(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
-			'currencies' => ArrayHelper::map(Currencies::find()->where(['deleted' => false])->orderBy('currency')->asArray()->all(), 'id', 'currency'),
+			'currencies' => Currencies::findCurrencies(),
 
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
@@ -475,7 +475,8 @@ class FinancesController extends LoginController
 
 	public function actionFinshared()
 	{
-		$searchModel = new FinsharedSearch();
+		//$searchModel = new FinsharedSearch();
+		$searchModel = new FinancesSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		if (!Yii::$app->session->get('session_using')) {
@@ -485,11 +486,11 @@ class FinancesController extends LoginController
 			return $this->render('myfinances', [
 				'motionTypes' => ArrayHelper::map(Motions::find()->orderBy('id')->asArray()->all(), 'type', 'name'),
 				'categroups' => ArrayHelper::map(Categroups::find()->where(['deleted' => false])->orderBy('cgroupname')->asArray()->all(), 'id', 'cgroupname'),
-				'categories' => ArrayHelper::map(Categories::find()->where(['!=', 'cgroup_id', -1])->andwhere(['deleted' => false])->orderBy('category')->asArray()->all(), 'id', 'category'),
+				'categories' => Categories::findCategories(),
 				'users' => ArrayHelper::map(User::find()->orderBy('realname')->asArray()->all(), 'id', 'realname'),
 				'walletGroups' => ArrayHelper::map(Walletgroups::find()->where(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
 				'wallets' => ArrayHelper::map(Wallets::find()->where(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
-				'currencies' => ArrayHelper::map(Currencies::find()->where(['deleted' => false])->orderBy('currency')->asArray()->all(), 'id', 'currency'),
+				'currencies' => Currencies::findCurrencies(),
 
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
@@ -505,11 +506,11 @@ class FinancesController extends LoginController
 		return $this->render('myfinances_ses', [
 				'motionTypes' => ArrayHelper::map(Motions::find()->orderBy('id')->asArray()->all(), 'type', 'name'),
 				'categroups' => ArrayHelper::map(Categroups::find()->where(['deleted' => false])->orderBy('cgroupname')->asArray()->all(), 'id', 'cgroupname'),
-				'categories' => ArrayHelper::map(Categories::find()->where(['!=', 'cgroup_id', -1])->andwhere(['deleted' => false])->orderBy('category')->asArray()->all(), 'id', 'category'),
+				'categories' => Categories::findCategories(),
 				'users' => ArrayHelper::map(User::find()->orderBy('realname')->asArray()->all(), 'id', 'realname'),
 				'walletGroups' => ArrayHelper::map(Walletgroups::find()->where(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
 				'wallets' => ArrayHelper::map(Wallets::find()->where(['user_id'=>Yii::$app->user->identity->id])->andwhere(['deleted' => false])->orderBy('name')->asArray()->all(), 'id', 'name'),
-				'currencies' => ArrayHelper::map(Currencies::find()->where(['deleted' => false])->orderBy('currency')->asArray()->all(), 'id', 'currency'),
+				'currencies' => Currencies::findCurrencies(),
 
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,

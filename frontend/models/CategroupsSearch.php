@@ -18,7 +18,8 @@ class CategroupsSearch extends Categroups
 	public function rules()
 	{
 		return [
-			[['id', 'deleted'], 'integer'],
+			[['id'], 'integer'],
+			[['system_group', 'deleted'], 'boolean'],
 			[['cgroupname'], 'safe'],
 		];
 	}
@@ -42,7 +43,8 @@ class CategroupsSearch extends Categroups
 	public function search($params)
 	{
 		$query = Categroups::find()
-		->Where(['deleted' => false]) //так мы скрываем категории, помеченные как удалённые
+		->Where(['deleted' => false])
+		->andWhere(['system_group' => false])
 		;
 		// add conditions that should always apply here
 

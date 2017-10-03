@@ -19,9 +19,9 @@ class CategoriesSearch extends Categories
 	{
 		return [
 			[['id'], 'integer'],
-			[['category'], 'safe'],
+			[['name'], 'safe'],
 			[['cgroup_id'], 'integer'],
-			[['deleted'], 'boolean'],
+			[['system_field', 'deleted'], 'boolean'],
 		];
 	}
 
@@ -44,8 +44,8 @@ class CategoriesSearch extends Categories
 	public function search($params)
 	{
 		$query = Categories::find()
-		->Where(['deleted' => false]) //так мы скрываем категории, помеченные как удалённые
-		->andWhere(['not in', 'id', [1, 2, 3, 4]]) //костыль для сокрытия категорий, которые автоматически присваиваются при переводах денег
+		->Where(['deleted' => false]) //hiding deleted categories
+		->andWhere(['system_field' => false])
 		;
 
 		$dataProvider = new ActiveDataProvider([
@@ -64,7 +64,7 @@ class CategoriesSearch extends Categories
 			'id' => $this->id,
 		]);
 
-		$query->andFilterWhere(['like', 'category', $this->category]);
+		$query->andFilterWhere(['like', 'name', $this->name]);
 
 		return $dataProvider;
 	}

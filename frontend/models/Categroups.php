@@ -10,7 +10,8 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $cgroupname
- * @property integer $deleted
+ * @property boolean $system_group
+ * @property boolean $deleted
  */
 class Categroups extends \yii\db\ActiveRecord
 {
@@ -30,7 +31,7 @@ class Categroups extends \yii\db\ActiveRecord
         return [
             [['cgroupname'], 'required'],
             [['cgroupname', ], 'safe'],
-            [['deleted'], 'integer'],
+            [['system_group', 'deleted'], 'boolean'],
         ];
     }
 
@@ -49,7 +50,8 @@ class Categroups extends \yii\db\ActiveRecord
     public static function findCategroups()
     {
         $query_categroups=Categroups::find()
-        ->Where(['deleted'=>false])
+        ->Where(['deleted' => false])
+        ->andWhere(['system_group' => false])
         ->all();
 
         //use yii\helpers\ArrayHelper;
