@@ -772,8 +772,12 @@ class FinancesController extends LoginController
 			$model_from->currency_id = $model->old_currency_id;
 			$model_to->currency_id = $model->new_currency_id;
 
+			$model_from->tagValues = $model->tagValues;
+			$model_to->tagValues = $model->tagValues;
+
 			$model_from->date = $model->date;
 			$model_to->date = $model->date;
+
 			$model_from->wallet_id = $model->old_wallet_id;
 			$model_to->wallet_id = $model->new_wallet_id;
 			$model_to->comment = 'Автоматический комментарий конвертации денег с кошелька '.$model_from->wallet_id.' на кошелёк '.$model_to->wallet_id;
@@ -810,6 +814,7 @@ class FinancesController extends LoginController
 			//'currencies' => $this->findCurrencies(),
 			'currencies' => Currencies::findCurrencies(),
 			'model' => $model,
+			'tags' => $this->getAllTags(true),
 		]);
 
 	}

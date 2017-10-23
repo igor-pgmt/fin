@@ -47,7 +47,7 @@ use kartik\select2\Select2;
 
 	<?= $form->field($model, 'currency_id')->dropDownList($currency_id) ?>
 
-	<?= $form->field($model, 'motion_id')->dropDownList($motions) ?>
+	<?= $form->field($model, 'motion_id')->dropDownList($motions,  ['prompt'=>'Select...']) ?>
 
 	<?= $form->field($model, 'planTags')->label('Тэги')
 		->widget(Select2::classname(), [

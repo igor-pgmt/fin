@@ -45,6 +45,7 @@ class WConverter extends Model
     public $new_wallet_id;
     public $date;
     public $comment;
+    public $tagValues;
 
     /**
      * @inheritdoc
@@ -54,10 +55,11 @@ class WConverter extends Model
         return [
             [['money', 'old_currency_id', 'new_currency_id', 'coefficient', 'user_id', 'old_wallet_id', 'new_wallet_id', 'date', 'action'], 'required'],
             [['old_currency_id', 'new_currency_id', 'user_id', 'old_wallet_id', 'new_wallet_id', 'action'], 'integer'],
-            [['money'], 'integer', 'min'=>1 ],
+            [['money'], 'integer', 'integerOnly' => false, ],
             [['coefficient'], 'double', 'min'=>0 ],
             [['date'], 'date','format' => 'YYYY-mm-dd'],
-            [['comment'], 'string', 'max' => 255]
+            [['comment'], 'string', 'max' => 255],
+            [['tagValues'], 'safe'],
         ];
     }
 

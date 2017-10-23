@@ -304,6 +304,11 @@ public $finTags=[];
 		return $user ? $user->realname : '';
 	}
 
+		public function getDateFrom() // получаем Имя юзера по его id
+	{
+		return $this->date;
+	}
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */

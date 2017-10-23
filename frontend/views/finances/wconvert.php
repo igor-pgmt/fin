@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Financial */
@@ -41,6 +42,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'new_wallet_id')->dropDownList($my_wallet)->label('Куда') ?>
 
         <?= $form->field($model, 'comment')->textarea() ?>
+
+        <?= $form->field($model, 'tagValues')->label('Тэги')
+            ->widget(Select2::classname(), [
+                'data' => $tags,
+                'language' => 'ru',
+                'options' => ['placeholder' => 'add some tags...','multiple' => true],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'tags'=>true,
+                ],
+            ]);
+        ?>
 
         <?= $form->field($model, 'date')
             ->widget(DatePicker::classname(), [

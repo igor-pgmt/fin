@@ -43,6 +43,7 @@ echo GridView::widget([
 	'responsive'=>true,
 	'responsiveWrap'=>true,
 	'hover'=>true,
+	'filterUrl'          => Url::to(["finances/finshared"]),
 	'pjax'=>true,
 	'pjaxSettings'       => [
 			'options' => [

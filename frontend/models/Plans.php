@@ -61,7 +61,7 @@ public $planTags=[];
 	public function rules()
 	{
 		return [
-			[['planname', 'moneyline', 'plantype', 'user_id', 'currency_id', 'motion_id', 'date_from', 'date_to'], 'required'],
+			[['planname', 'moneyline', 'plantype', 'user_id', 'currency_id', 'date_from', 'date_to'], 'required'],
 			[['user_id', 'currency_id', 'walletgroup_id', 'wallet_id', 'motion_id', 'category_id', 'cgroup_id'], 'integer'],
 			[['tag_search', 'common_plan', 'difference', 'summation'], 'boolean'],
 			[['shared_plan'], 'integer'],

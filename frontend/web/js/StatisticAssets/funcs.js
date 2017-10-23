@@ -31,7 +31,7 @@ function findme(point) {
 
 $("#pointClickLog").html('Нажатая дата: '+point.x+'; '+point.y+"; "+ convertTimestamp(point.x));
 
-link="finances/finshared?FinsharedSearch%5Bmoney%5D=&FinsharedSearch%5Bcurrency_id%5D=&FinsharedSearch%5Bmotion_id%5D=&FinsharedSearch%5Bcategory_id%5D=&FinsharedSearch%5Bwallet_id%5D=&FinsharedSearch%5Bdate%5D="+convertTimestamp(point.x)+"&FinsharedSearch%5Bcomment%5D=&FinsharedSearch%5Bmy_old_wallet_balance%5D=&FinsharedSearch%5Bmy_old_summa_balance%5D=&FinsharedSearch%5Bmy_new_wallet_balance%5D=&FinsharedSearch%5Bmy_new_summa_balance%5D=&FinsharedSearch%5Bour_old_wgsumma_balance%5D=&FinsharedSearch%5Bour_old_summa_balance%5D=&FinsharedSearch%5Bour_new_wgsumma_balance%5D=&FinsharedSearch%5Bour_new_summa_balance%5D=&FinsharedSearch%5Btimestamp%5D=";
+link="finances/finshared?FinsharedSearch%5Bdate%5D="+convertTimestamp(point.x);
 window.open(link, "window name");
 
 }

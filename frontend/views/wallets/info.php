@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					foreach ($value as $key2 => $value2) { //правый столбец, название валюты и её объём
 						$value2 = isset($value2) ? $value2 : 0;
 						echo '<div style="border: 0px solid grey; margin: 5px; padding: 3px;">';
-						echo floatval($value2).' '.$key2;
+						echo sprintf('%.20F', $value2).' '.$key2;
 						echo '</div>';
 					}
 				echo '</div>';

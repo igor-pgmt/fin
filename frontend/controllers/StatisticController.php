@@ -144,10 +144,11 @@ $command2 = $connection->createCommand($incomes);
 $resultc2 = $command2->queryAll();
 
 
-
-$сPlanresult['expences'][]=intval($resultc1[0]['SUM(`money`)']);
-$сPlanresult['incomes'][]=intval($resultc2[0]['SUM(`money`)']);
-$сPlanresult['currencies'][]=$cvalue['currency'];
+$сPlanresult['expences'][]=floatval($resultc1[0]['SUM(`money`)']);
+$сPlanresult['incomes'][]=floatval($resultc2[0]['SUM(`money`)']);
+// $сPlanresult['expences'][]=intval($resultc1[0]['SUM(`money`)']);
+// $сPlanresult['incomes'][]=intval($resultc2[0]['SUM(`money`)']);
+$сPlanresult['currencies'][]=$cvalue['name'];
 
 
 }
@@ -340,22 +341,18 @@ $i++;
 
 		if ($walletsID != NULL) {$operators = 'IN';} else {$operators = 'NOT IN'; $walletsID = [0, 0];}
 		if ($category != NULL) {$operatorc = 'IN';} else {$operatorc = 'NOT IN'; $category = [0, 0];}
-		//if (!empty($tagResult)) {$operatort = 'IN';} else {$operatort = 'NOT IN'; $tagResult = false;}
-
-echo '<br />';
-echo '<br />';
-echo '<br />';
-echo '<br />';
+		if (!empty($tagResult)) {$operatort = 'IN';} else {$operatort = 'NOT IN'; $tagResult = false;}
+		if ($motion != NULL) {$operatorm = 'IN';} else {$operatorm = 'NOT IN'; $motion = false;}
 
 		$formatter = \Yii::$app->formatter;
 		$planresult1 = Finances::find()
 			->select (['date, SUM(money) as daily'])
 			->Where(['IN', 'user_id', $users])
-			->andWhere(['IN', 'finances.id', $tagResult])
-			//->andWhere([$operatort, 'finances.id', $tagResult])
+			->andWhere([$operatort, 'finances.id', $tagResult])
 			->andWhere(['currency_id' => $currency])
 			->andWhere([$operators, 'wallet_id', $walletsID])
-			->andWhere(['motion_id' => $motion])
+			->andWhere([$operatorm, 'motion_id', $motion])
+			// ->andWhere(['motion_id' => $motion])
 			->andWhere([$operatorc, 'category_id', $category])
 			->andWhere(['>=', 'date', $date_from])
 			->andWhere(['<=', 'date', $date_to])
@@ -363,7 +360,8 @@ echo '<br />';
 			->groupBy(['date'])
 			->asArray()->all();
 
-/*echo '<br /><br /><br /><br /><br />';
+/*
+echo '<br /><br /><br /><br /><br />';
 
 echo 'dates '.$date_from.' to '.$date_to.'<br />';
 echo 'users: '.'<br />';
@@ -379,21 +377,23 @@ print_r($category);
 echo '<br />';
 
 
-echo '<br /><br />';
-print_r($planresult1);*/
-
+echo '<br /><br />tagresult:';
+print_r($tagResult);
+echo '<br /><br />planresult1:';
+print_r($planresult1);
+*/
 
 
 			//костыль
 	if (empty($planresult1)) {return $planresult1;}
 
-	$currencyName = Currencies::findOne($currency);
+	$currency = Currencies::findOne($currency);
 	$narast=0; //Число нарастающей суммы
 		foreach ($planresult1 as $key => $value) {
 			$datejs =$value['date'].' 00:00:00';
 			$dd=$formatter->asTimestamp($datejs);
 			if ($summation==true){$narast+=$value['daily'];} else {$narast=$value['daily'];}
-			$planresultArray[]=['name'=>$currencyName->currency, 'date'=>$dd, 'amount'=>$narast];
+			$planresultArray[]=['name'=>$currency->name, 'date'=>$dd, 'amount'=>$narast];
 		}
 
 		return $planresultArray;
@@ -404,18 +404,16 @@ print_r($planresult1);*/
 		if ($walletsID != NULL) {$operators = 'IN';} else {$operators = 'NOT IN'; $walletsID = [0, 0];}
 		if ($category != NULL) {$operatorc = 'IN';} else {$operatorc = 'NOT IN'; $category = [0, 0];}
 		if (!empty($tagResult)) {$operatort = 'IN';} else {$operatort = 'NOT IN'; $tagResult = false ;}
+		if ($motion != NULL) {$operatorm = 'IN';} else {$operatorm = 'NOT IN'; $motion = false;}
 
 		$formatter = \Yii::$app->formatter;
 		$amount=0;
 		$this_date = $date_from;
 		$this_date_full = $this_date.' 00:00:00';
 		$dd=$formatter->asTimestamp($this_date_full);
-		$currencyName = Currencies::findOne($currency);
-
+		$currency = Currencies::findOne($currency);
 
 		$ii=0;
-
-
 
 		while ($this_date <= $date_to) {
 
@@ -427,7 +425,8 @@ print_r($planresult1);*/
 					->andWhere([$operatort, 'finances.id', $tagResult])
 					->andWhere(['currency_id' => $currency])
 					->andWhere([$operators, 'wallet_id', $walletsID])
-					->andWhere(['motion_id' => $motion])
+			        ->andWhere([$operatorm, 'motion_id', $motion])
+					// ->andWhere(['motion_id' => $motion])
 					->andWhere([$operatorc, 'category_id', $category])
 					->andWhere(['=', 'date', $this_date])
 					->andWhere(['<>', 'deleted', 1])
@@ -452,76 +451,70 @@ print_r($planresult1);*/
 					$presult1 = isset($planresult1[0]['daily']) ? $planresult1[0]['daily'] : 0;
 					$presult2 = isset($planresult2[0]['daily']) ? $planresult2[0]['daily'] : 0;
 
-					//$prev_date = date('Y-m-d', strtotime($this_date_full . ' -1 day'));
+					//minus one day
 					$prev_date = date('Y-m-d', $dd-86400);
 					$prev2_date = isset($prev2_date) ? $prev2_date :  date('Y-m-d', $dd);
 					$planres[$prev2_date] = (!isset($planres[$prev2_date])) ? 0 : $planres[$prev2_date];
-					//$planres[$prev_date] = (!isset($planres[$prev_date])) ? 0 : $planres[$prev_date];
-				//	echo 'prevd:'.$planres[$prev2_date];
-if (!(($presult1==0) AND ($presult2==0))) {
+
+				if (!(($presult1==0) AND ($presult2==0))) {
 					if ($summation==true){$amount=$planres[$prev2_date]+$presult1 - $presult2;} else {$amount=$presult1 - $presult2;}
 
 					$planres[$this_date] = $amount;
 
 					$datejs = strtotime($this_date);
-					$planresultArray[]=['name'=>$currencyName->currency, 'date'=>$datejs, 'amount'=>$amount];
+					$planresultArray[]=['name'=>$currency->name, 'date'=>$datejs, 'amount'=>$amount];
 					$prev2_date = date('Y-m-d', $dd);
-}
-					//плюс 1 день
-					//$this_date = date('Y-m-d', strtotime($this_date . ' +1 day'));
+				}
+					//plus 1 day
 					$dd+=86400;
 					$this_date = date('Y-m-d', $dd);
 					//$this_date = date('Y-m-d', $dd+86400);
 
 		}
 
-//костыль
-$planresultArray = isset($planresultArray) ? $planresultArray : Array() ;
+		//костыль
+		$planresultArray = isset($planresultArray) ? $planresultArray : Array() ;
 
-		$planresult[] = ['name'=>$currencyName->currency, 'data'=>$planresultArray];
+		$planresult[] = ['name'=>$currency->name, 'data'=>$planresultArray];
 
 			return $planresultArray;
 	}
 
 
 
-/*--- functions ---*/
-private function getTaggedRecords($id)
-{
-			//this redord's tags
-		$record = Plans::find()->where(['id'=>$id])->with('tags')->one();
+	/*--- functions ---*/
+	private function getTaggedRecords($id)
+	{
+				//this redord's tags
+			$record = Plans::find()->where(['id'=>$id])->with('tags')->one();
 
-		$tagValues=[];
-		if ($record->tags) $tagValues = array_merge($tagValues, $record->getTagValues(true));
+			$tagValues=[];
+			if ($record->tags) $tagValues = array_merge($tagValues, $record->getTagValues(true));
 
-		$atw = array_combine($tagValues, $tagValues);
+			$atw = array_combine($tagValues, $tagValues);
 
-		$atw=implode(",", $atw);
+			$atw=implode(",", $atw);
 
-		switch ($record->tag_search) {
-			case false:
-				$tagResult = Finances::find()
-					->Where(['deleted'=>false])
-					->anyTagValues($atw)
-					->select (['finances.id'])
-					->column();
-				break;
+			switch ($record->tag_search) {
+				case false:
+					$tagResult = Finances::find()
+						->Where(['deleted'=>false])
+						->anyTagValues($atw)
+						->select (['finances.id'])
+						->column();
+					break;
 
-			case true:
-				$tagResult = Finances::find()
-					->Where(['deleted'=>false])
-					->allTagValues($atw)
-					->select (['finances.id'])
-					->column();
-				break;
-		}
+				case true:
+					$tagResult = Finances::find()
+						->Where(['deleted'=>false])
+						->allTagValues($atw)
+						->select (['finances.id'])
+						->column();
+					break;
+			}
 
-			return $tagResult;
-}
-
-
-
-
+				return $tagResult;
+	}
 
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use kartik\grid\GridView;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
@@ -47,6 +48,7 @@ echo GridView::widget([
 	'responsive'=>true,
 	'responsiveWrap'=>true,
 	'hover'=>true,
+		'filterUrl'          => Url::to(["finances/finshared"]),
 	'pjax'=>true,
 	'pjaxSettings'       => [
 			'options' => [
@@ -293,6 +295,7 @@ echo GridView::widget([
 				'vAlign' => 'middle',
 				'width' => '40px',
 			],
+'dateFrom',
 			[
 				'attribute' => 'comment',
 				//'label'=> $settingsUser['name_comment'],

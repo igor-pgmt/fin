@@ -21,6 +21,7 @@ class FinsharedSearch extends Finances
 	public $walletgroup_id;
 	public $cgroup_id;
 	public $tag;
+	public $dateFrom;
 
 	/**
 	 * @inheritdoc
@@ -58,7 +59,7 @@ class FinsharedSearch extends Finances
 					'integer'],
 
 			[['deleted'], 'boolean'],
-			[['date', 'comment', 'currency_name', 'realName', 'motionType', 'categoryName', 'walletName', 'tag'], 'safe'],
+			[['date', 'dateFrom', 'comment', 'currency_name', 'realName', 'motionType', 'categoryName', 'walletName', 'tag'], 'safe'],
 		];
 	}
 
@@ -105,6 +106,7 @@ class FinsharedSearch extends Finances
 			'category_id',
 			'user_id',
 			'tag',
+			'dateFrom',
 			'wallet_id',
 			'currency_id',
 			'currency_name' => [
@@ -206,6 +208,7 @@ class FinsharedSearch extends Finances
 		$query->andFilterWhere(['like', 'money', $this->money]);
 		$query->andFilterWhere(['like', 'comment', $this->comment]);
 		$query->andFilterWhere(['like', 'date', $this->date]);
+		$query->andFilterWhere(['>', 'date', $this->dateFrom]);
 
 		$query->joinWith(['currencies' => function ($q) {
 			$q->where('currencies.name LIKE "%' . $this->currency_name . '%"');
